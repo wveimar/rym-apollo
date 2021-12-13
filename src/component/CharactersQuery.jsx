@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import ButtonCustom from "../ui/ButtonCustom";
+import { Button, Grid} from "@mui/material";
+
+
+import { CardCustom } from "../ui/CardCustom";
 
 const CharactersQuery = () => {
   const [pag,setPag] = useState(3)
@@ -20,24 +23,18 @@ const CharactersQuery = () => {
   if (error) return <p>Error :(</p>;
   return (
     <div>
-      <div >
+    
         {data.characters.results.map((character) => {
           return (
-            <div key={character.id} >
-              <p>{character.name}</p>
-              <p>{character.id}</p>
-              <p>especie: {character.species}+ {pag}</p>
-              <img src={character.image} alt="img" />
-              <ButtonCustom text="Agregar"/>
-              
-            </div>
+            <Grid  container  item xs={6} sm={5} md={4} lg={4} xl={6}>
+             <CardCustom imageJPG={character.image} text="agregar" name={character.name} especies={character.species} key={character.id}/>
+             </Grid>
+             
           );
         })}
-      </div>
-      <button onClick={() =>setPag(pag + 1)}>next</button>
-      <button onClick={() =>setPag(pag - 1)}>previous</button>
-     
-      
+      <Button onClick={() =>setPag(pag + 1)}>Next</Button>
+    
+      <Button onClick={() =>setPag(pag - 1)}>Previous</Button>
     </div>
   );
 };
