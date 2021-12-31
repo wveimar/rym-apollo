@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { Button, Grid, Stack } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import { CardCustom } from "../ui/CardCustom";
+import Pagination from "@mui/material/Pagination";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        
-        
-        
+       
+      
+
     },
 
-    targeta:{
+    targeta: {
         margin: 8,
 
     }
@@ -19,10 +21,13 @@ const useStyles = makeStyles((theme) => ({
 
 const CharactersQuery = () => {
     const classes = useStyles();
-    const [pag, setPag] = useState(3)
+    const [page, setPage] = useState(3)
+    const handleChange = (event, value) => {
+        setPage(value);
+    };
     const { loading, error, data } = useQuery(gql`
     {
-      characters (page:${pag}){
+      characters (page:${page}){
         results {
           id
           name
@@ -41,15 +46,20 @@ const CharactersQuery = () => {
                     return (
                         <div key={character.id} className={classes.targeta}>
                             <CardCustom imageJPG={character.image} text="agregar" name={character.name} especies={character.species} />
+
                         </div>
                     );
                 })}
 
 
             </Grid>
-            <Button onClick={() => setPag(pag + 1)}>Next</Button>
 
-            <Button onClick={() => setPag(pag - 1)}>Previous</Button>
+            <Stack spacing={2}>
+                <Typography>Page: {page}</Typography>
+                <Pagination count={10} page={page} onChange={handleChange} />
+
+            </Stack>
+
         </div>
     );
 };

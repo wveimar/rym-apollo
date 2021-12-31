@@ -14,10 +14,10 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default function ButtonCustom(props) {
+export default function ButtonCustom({text,evento}) {
   return (
     
-      <ColorButton variant="contained">{props.text}</ColorButton>
+      <ColorButton variant="contained" onClick={evento}>{text}</ColorButton>
     
    
   );
